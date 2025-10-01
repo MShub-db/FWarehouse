@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Factory Warehouse Inventory</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+  <!-- ✅ PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- ✅ Theme Color -->
+  <meta name="theme-color" content="#004aad">
+</head>
+<body>
+  <div id="app">
+    <nav class="container-fluid">
+      <ul><li><strong>Factory Warehouse Inventory</strong></li></ul>
+      <ul>
+        <li><a onclick="showSection('dashboard')">Dashboard</a></li>
+        <li><a onclick="showSection('reports')">Reports</a></li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      <!-- Dashboard -->
+      <div id="dashboard">
+        <section>
+          <hgroup>
+            <h2>Warehouse Inventory</h2>
+            <h3>Manage Stock</h3>
+          </hgroup>
+
+          <form id="addItemForm" class="grid">
+            <input type="hidden" id="editIndex">
+            <input type="text" id="finish" placeholder="Finish" required>
+            <input type="text" id="grade" placeholder="Grade" required>
+            <input type="text" id="size" placeholder="Size" required>
+            <input type="text" id="thickness" placeholder="Thickness" required>
+            <input type="number" id="rack" placeholder="Rack Number" required>
+            <input type="number" id="shelf" placeholder="Shelf Number" required>
+            <button type="submit">Save Item</button>
+            <button type="button" id="cancelEdit" style="display:none;" onclick="cancelEdit()">Cancel</button>
+          </form>
+
+          <h3>Current Stock</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Finish</th>
+                <th>Grade</th>
+                <th>Size</th>
+                <th>Thickness</th>
+                <th>Rack</th>
+                <th>Shelf</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTable"></tbody>
+          </table>
+        </section>
+      </div>
+
+      <!-- Reports -->
+      <div id="reports" style="display:none;">
+        <section>
+          <hgroup>
+            <h2>Reports</h2>
+            <h3>Summary View</h3>
+          </hgroup>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Finish</th>
+                <th>Grade</th>
+                <th>Size</th>
+                <th>Thickness</th>
+                <th>Rack</th>
+                <th>Shelf</th>
+              </tr>
+            </thead>
+            <tbody id="reportTable"></tbody>
+          </table>
+
+          <button onclick="exportExcel()">Export to Excel</button>
+        </section>
+      </div>
+    </main>
+
+    <footer class="container">
+      <small><a href="#">ASCEND METALS LLC.</a> • <a href="#">Support</a></small>
+    </footer>
+  </div>
+
+  <!-- ✅ Main App Script -->
+  <script src="app.js"></script>
+
+  <!-- ✅ Register Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/FWarehouse/service-worker.js")
+        .then(() => console.log("✅ Service Worker registered"))
+        .catch(err => console.error("❌ SW registration failed:", err));
+    }
+  </script>
+</body>
+</html>
